@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   application:
@@ -11,11 +11,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+
 
 eureka:
   instance:
-    instance-id: ce-instance
+    instance-id: service-server-instance
 
   client:
     fetch-registry: true
