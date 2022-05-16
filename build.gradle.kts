@@ -6,6 +6,18 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+
+    // allopen & noarg
+    kotlin("plugin.allopen") version "1.3.71"
+    kotlin("plugin.noarg") version "1.3.71"
+}
+
+allOpen{
+    annotation("javax.persistence.Entity")
+}
+
+noArg{
+    annotation("javax.persistence.Entity")
 }
 
 group = "kr.soupio"
@@ -14,6 +26,9 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+
+    // kassava
+    maven("https://jitpack.io")
 }
 
 extra["springCloudVersion"] = "2021.0.1"
@@ -29,6 +44,9 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // kassava
+    implementation("com.github.consoleau:kassava:2.1.0")
 }
 
 dependencyManagement {
