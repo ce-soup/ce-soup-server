@@ -12,7 +12,7 @@ env:
   DOCKER_NAME: soup
   SERVER_URL: 133:186:215.107
   SERVER_PORT: 8080
-  SERVER_NETWORK: soup
+  DOCKER_NETWORK: soup
   EUREKA_HOST: eureka
   EUREKA_PORT: 8761
 
@@ -71,7 +71,7 @@ jobs:
   deploy-ce:
     name: deploy-ce
     needs: build
-    runs-on: [self-hosted, ce-soup]
+    runs-on: [ self-hosted, ce-soup ]
     steps:
       - uses: actions/checkout@v2
 
