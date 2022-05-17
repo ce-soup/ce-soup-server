@@ -1,0 +1,96 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  VERSION: ${{ github.sha }}
+  DOCKER_IMAGE: ghcr.io/ce-soup/ce-soup-server
+  DOCKER_NAME: soup
+  SERVER_URL: 133:186:215.107
+  SERVER_PORT: 8080
+  SERVER_NETWORK: soup
+  EUREKA_HOST: eureka
+  EUREKA_PORT: 8761
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 사용자의 repository를 ubuntu 환경에 복사하는 action
+      - uses: actions/checkout@v3
+
+      - name: 1. set up jdk 11
+        uses: actions/setup-java@v3
+        with:
+          java-versions: '11'
+          distribution: 'temurin'
+      - name: 2. grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: 3. build with gradle
+        run: ./gradelw clean build -x test  # 실제 application build (text는 제외)
+
+      - name: 4. set up docker buildx  # Docker CLI의 플러그인인 buildx를 설정
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Dockerfile 각 명령어마다 layer가 쌓인다.
+      # ADD와 COPY 명령어를 제외한 모든 명령어는 Dockerfile에 기재된 명령어 string만 동일하면 캐싱을 사용하고,
+      # ADD와 COPY 명령어는 Dockerfile에 기재된 명령어 string + 해당 파일의 변경 유무까지 파악해서 캐싱을 사용한다.
+      # parent가 변하면 자식도 다시 build
+      - name: 5. set up docker layer caches
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          # 캐시 저장할 때 생성되는 key, 캐싱된 데이터를 찾을 때 사용
+          key: ${{ runner.os }}-buildx-${{ env.version }}
+          restore-keys: |
+            ${{ runner.os }}-buildx
+
+      - name: 6. login to ghcr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: govl6113
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: 7. docker build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: .
+          push: true
+          tags: ${{ env.DOCKER_IMAGE }}:latest
+
+  deploy-ce:
+    name: deploy-ce
+    needs: build
+    runs-on: [self-hosted, ce-soup]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 1. login to ghcr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: govl6113
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: 2. docker run
+        run: |
+          /home/soup/commands/remove_docker_container.sh ${{ env.DOCKER_NAME }} ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p ${{ env.SERVER_PORT }}:${{ env.SERVER_PORT }} \
+          --net ${{ env.DOCKER_NETWORK }} \
+          --name ${{ env.DOCKER_NAME }} \
+          --restart always ${{ env.DOCKER_IMAGE }}:latest \
+          --SERVER_PORT=${{ env.SERVER_PORT }} \
+          --EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE=http://${{ env.EUREKA_HOST }}:${{ env.EUREKA_PORT }}/eureka \
+          --DATASOURCE_URL=${{ secrets.DATASOURCE_URL }} \
+          --DATASOURCE_USERNAME=${{ secrets.DATASOURCE_USERNAME }} \
+          --DATASOURCE_PASSWORD=${{ secrets.DATASOURCE_PASSWORD }} \
+          --JPA_HIBERNATE_DDL_AUTO=update
+          

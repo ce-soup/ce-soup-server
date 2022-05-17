@@ -12,7 +12,6 @@ spring:
     hibernate:
       ddl-auto: none
 
-
 eureka:
   instance:
     instance-id: service-server-instance
