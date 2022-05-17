@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - ci/action
 
 env:
   VERSION: ${{ github.sha }}
