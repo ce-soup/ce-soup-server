@@ -10,7 +10,7 @@ env:
   VERSION: ${{ github.sha }}
   DOCKER_IMAGE: ghcr.io/ce-soup/ce-soup-server
   DOCKER_NAME: soup
-  SERVER_URL: 133:186:215.107
+  SERVER_URL: 133.186:215.107
   SERVER_PORT: 8080
   DOCKER_NETWORK: soup
   EUREKA_HOST: eureka
