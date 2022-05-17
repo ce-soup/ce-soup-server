@@ -2,7 +2,7 @@
 FROM openjdk:11
 
 # build/libs/*-SANPSHOT.jar를 JAR_FILE 변수에 담음
-ARG JAR_FILE=build/libs/*-SANPSHOT.jar
+ARG JAR_FILE=build/libs/*-SNAPSHOT.jar
 
 # 위에서 할당한 변수명을 app.jar 이름으로 복사함, 경로에 추가함
 COPY ${JAR_FILE} app.jar
