@@ -5,7 +5,6 @@ import org.springframework.boot.runApplication
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 
-
 @SpringBootApplication
 @EnableEurekaClient
 @EnableJpaAuditing

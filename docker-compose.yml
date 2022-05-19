@@ -4,6 +4,7 @@ services:
   database:
     image: mysql:8
     container_name: mysql
+    restart: always
     volumes:
       - ./data/mysql:/var/lib/mysql
     environment:
