@@ -33,7 +33,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: 3. build with gradle
-        run: ./gradlew clean build -x test  # 실제 application build (text는 제외)
+        run: ./gradlew clean build -x test  # 실제 application build (test는 제외)
 
       - name: 4. set up docker buildx  # Docker CLI의 플러그인인 buildx를 설정
         id: buildx

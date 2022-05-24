@@ -1,12 +1,11 @@
 package kr.soupio.soup.member.service
 
-import Member
-import MemberServiceGrpc
 import io.grpc.stub.StreamObserver
 import kr.soupio.soup.member.dto.request.CreateMemberRequest
 import kr.soupio.soup.member.entities.SexEnum
-import kr.soupio.soup.member.service.MemberService
 import net.devh.boot.grpc.server.service.GrpcService
+import soup.Member
+import soup.MemberServiceGrpc
 
 @GrpcService
 class MemberGrpcService(
