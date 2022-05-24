@@ -14,6 +14,7 @@ env:
   DOCKER_NETWORK: soup
   EUREKA_HOST: eureka
   EUREKA_PORT: 8761
+  GRPC_PORT: 5000
 
 jobs:
   build:
@@ -84,12 +85,13 @@ jobs:
       - name: 2. docker run
         run: |
           /home/soup/commands/remove_docker_container.sh ${{ env.DOCKER_NAME }} ${{ env.DOCKER_IMAGE }}:latest
-          docker run -d -p ${{ env.SERVER_PORT }}:${{ env.SERVER_PORT }} \
+          docker run -d -p ${{ env.SERVER_PORT }}:${{ env.SERVER_PORT }} -p ${{ env.SERVER_GRPC_PORT }}:${{ env.SERVER_GRPC_PORT }} \
           --net ${{ env.DOCKER_NETWORK }} \
           --name ${{ env.DOCKER_NAME }} \
           --restart always ${{ env.DOCKER_IMAGE }}:latest \
           --SERVER_PORT=${{ env.SERVER_PORT }} \
           --EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE=http://${{ env.EUREKA_HOST }}:${{ env.EUREKA_PORT }}/eureka \
+          --GRPC_PORT=${{ env.GRPC_PORT }} \
           --DATASOURCE_URL=${{ secrets.DATASOURCE_URL }} \
           --DATASOURCE_USERNAME=${{ secrets.DATASOURCE_USERNAME }} \
           --DATASOURCE_PASSWORD=${{ secrets.DATASOURCE_PASSWORD }} \

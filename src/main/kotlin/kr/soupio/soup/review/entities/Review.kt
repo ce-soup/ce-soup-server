@@ -20,6 +20,6 @@ class Review(
     ) : Core() {
     fun addMember(member: Member) {
         this.recipient = member
-        member.reviews.add(this)
+        member.reviews?.add(this)
     }
 }

@@ -14,16 +14,16 @@ class Member(
 
     @OneToOne
     @JoinColumn(name = "id")
-    var profileImage: File,
+    var profileImage: File? = null,
 
-    var bio: String,
+    var bio: String? = null,
 
     @OneToMany(mappedBy = "recipient")
-    var reviews: MutableList<Review>,
+    var reviews: MutableList<Review>? = null,
 
-    var reviewCount: Int,
+    var reviewCount: Int? = null,
 
     @ElementCollection
     @CollectionTable()
-    var deviceToken: List<String>
+    var deviceToken: List<String>? = null
 ) : Core()

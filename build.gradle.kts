@@ -1,13 +1,22 @@
+// grpc
+import com.google.protobuf.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val protobufJavaVersion = "3.20.1"
+val grpcProtobufVersion = "1.45.1"
+val grpcVersion = "1.45.1"
+val grpcSpringBootStarter = "2.13.1.RELEASE"
 
 plugins {
     id("org.springframework.boot") version "2.6.7"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
 
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21"
-    kotlin("plugin.jpa") version "1.6.21"
+    //grpc (protocol buffer 파일을 .java 파일로 만들어주는 protoc를 빌드 도구에 추가)
+    id("com.google.protobuf") version "0.8.17"
+
+    kotlin("jvm") version "1.6.20"
+    kotlin("plugin.spring") version "1.6.20"
+    kotlin("plugin.jpa") version "1.6.20"
 
     // allopen & noarg
     kotlin("plugin.allopen") version "1.3.71"
@@ -50,6 +59,42 @@ dependencies {
 
     // swagger
     implementation("io.springfox:springfox-boot-starter:3.0.0")
+
+    // grpc
+    implementation("com.google.protobuf:protobuf-java:${protobufJavaVersion}")
+    implementation("io.grpc:grpc-protobuf:${grpcProtobufVersion}")
+    implementation("io.grpc:grpc-netty:${grpcVersion}")
+    implementation("net.devh:grpc-spring-boot-starter:${grpcSpringBootStarter}")
+}
+
+sourceSets {
+    getByName("main") {
+        java {
+            srcDirs(
+                "build/generated/source/proto/main/grpc",
+                "build/generated/source/proto/main/java"
+            )
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufJavaVersion}"
+    }
+
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+    generateProtoTasks {
+        ofSourceSet("main").forEach {
+            it.plugins {
+                id("grpc")
+            }
+        }
+    }
 }
 
 dependencyManagement {
