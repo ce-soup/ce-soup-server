@@ -3,9 +3,8 @@ import com.google.protobuf.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val protobufJavaVersion = "3.20.1"
-val grpcProtobufVersion = "1.45.1"
-val grpcVersion = "1.45.1"
-val grpcSpringBootStarter = "2.13.1.RELEASE"
+val grpcVersion = "1.46.0"
+val grpcStarterVersion = "2.13.1.RELEASE"
 
 plugins {
     id("org.springframework.boot") version "2.6.7"
@@ -61,10 +60,11 @@ dependencies {
     implementation("io.springfox:springfox-boot-starter:3.0.0")
 
     // grpc
-    implementation("com.google.protobuf:protobuf-java:${protobufJavaVersion}")
-    implementation("io.grpc:grpc-protobuf:${grpcProtobufVersion}")
-    implementation("io.grpc:grpc-netty:${grpcVersion}")
-    implementation("net.devh:grpc-spring-boot-starter:${grpcSpringBootStarter}")
+    implementation("com.google.protobuf:protobuf-java:$protobufJavaVersion")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("io.grpc:grpc-netty:$grpcVersion")
+    implementation("net.devh:grpc-spring-boot-starter:$grpcStarterVersion")
+    implementation("net.devh:grpc-server-spring-boot-starter:$grpcStarterVersion")
 }
 
 sourceSets {
