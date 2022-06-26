@@ -6,20 +6,19 @@ import javax.persistence.*
 
 @Entity
 class Review(
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipient_id")
+    var recipient: Member,
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "recipient_id")
-	var recipient: Member,
+    @OneToOne
+    @JoinColumn(name = "writer_id")
+    var writer: Member,
 
-	@OneToOne
-	@JoinColumn(name = "writer_id")
-	var writer: Member,
+    var content: String,
 
-	var content: String,
-
-	) : Core() {
-	fun addMember(member: Member) {
-		this.recipient = member
-		member.reviews.add(this)
-	}
+    ) : Core() {
+    fun addMember(member: Member) {
+        this.recipient = member
+        member.reviews.add(this)
+    }
 }

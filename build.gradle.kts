@@ -20,6 +20,9 @@ plugins {
     // allopen & noarg
     kotlin("plugin.allopen") version "1.3.71"
     kotlin("plugin.noarg") version "1.3.71"
+
+    // serialization
+    kotlin("plugin.serialization") version "1.5.0"
 }
 
 // allopen
@@ -53,6 +56,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("org.projectlombok:lombok:1.18.22")
+    implementation("org.projectlombok:lombok:1.18.22")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
@@ -65,6 +70,9 @@ dependencies {
     implementation("io.grpc:grpc-netty:$grpcVersion")
     implementation("net.devh:grpc-spring-boot-starter:$grpcStarterVersion")
     implementation("net.devh:grpc-server-spring-boot-starter:$grpcStarterVersion")
+
+    // serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 }
 
 sourceSets {

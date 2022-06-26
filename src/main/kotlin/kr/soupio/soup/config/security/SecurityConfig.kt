@@ -13,13 +13,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
             .cors().configurationSource { corsConfigure() }
             .and()
-
-            .authorizeRequests()
-            .antMatchers("/swagger-ui/**").permitAll()
-            .antMatchers("/swagger-resources/**").permitAll()
-            .antMatchers("/v3/api-docs").permitAll()
-            .anyRequest().authenticated()
-            .and()
     }
 
     fun corsConfigure(): CorsConfiguration {
