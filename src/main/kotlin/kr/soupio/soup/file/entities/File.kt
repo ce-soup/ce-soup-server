@@ -6,15 +6,15 @@ import javax.persistence.*
 
 @Entity
 class File(
-    @Column(name = "`key`")
+    @Column(name = "`key`", nullable = false)
     var key: String,
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     var type: FileTypeEnum,
 
+    @Column(nullable = false)
     var mime: String,
-
-    var name: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uploader_id")

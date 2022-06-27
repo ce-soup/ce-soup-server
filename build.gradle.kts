@@ -73,6 +73,9 @@ dependencies {
 
     // serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+
+    // minio
+    implementation("io.minio:minio:8.2.1")
 }
 
 sourceSets {
