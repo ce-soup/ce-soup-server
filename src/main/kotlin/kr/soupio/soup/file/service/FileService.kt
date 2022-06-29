@@ -24,7 +24,7 @@ class FileService(
     ): File? {
         if (multipartFile.isEmpty) throw NotExistFileException()
 
-        val mime: String? = multipartFile.contentType
+        val mime: String? = multipartFile.contentType?.split("/")?.get(1)
         val key: String = "${type}/${UUID.randomUUID()}.${mime}"
 
         val file: File = fileRepository.save(File(key, type, mime!!, uploader))
