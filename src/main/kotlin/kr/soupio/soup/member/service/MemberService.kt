@@ -33,8 +33,7 @@ class MemberService(
         userId: String,
         request: UpdateProfileRequest
     ): Boolean {
-        val member: Member = memberRepository.findById(userId)
-            .orElse(null) ?: throw NotExistMemberException(userId)
+        val member: Member = getMe(userId)
 
         if (member.profileImage != null)
             fileService.delete(member.profileImage!!)
@@ -46,5 +45,10 @@ class MemberService(
             return true
         }
         return false
+    }
+
+    fun getMe(userId: String): Member {
+        return memberRepository.findById(userId)
+            .orElseThrow { NotExistMemberException(userId) }
     }
 }

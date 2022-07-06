@@ -57,7 +57,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.projectlombok:lombok:1.18.22")
-    implementation("org.projectlombok:lombok:1.18.22")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
