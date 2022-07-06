@@ -9,6 +9,8 @@ import kr.soupio.soup.group.exception.GroupNameAlreadyExistException
 import kr.soupio.soup.group.repository.GroupRepository
 import kr.soupio.soup.member.entities.Member
 import kr.soupio.soup.member.service.MemberService
+import kr.soupio.soup.search.dto.SearchRequest
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -54,5 +56,10 @@ class GroupService(
         } catch (e: Exception) {
             return false
         }
+    }
+
+    @Transactional
+    fun searchGroup(request: SearchRequest): Page<Group> {
+        return groupRepository.findByNameContaining(keyword = request.keyword, pageable = request.pageable)
     }
 }

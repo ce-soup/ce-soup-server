@@ -8,6 +8,8 @@ import kr.soupio.soup.member.dto.request.CreateMemberRequest
 import kr.soupio.soup.member.dto.request.UpdateProfileRequest
 import kr.soupio.soup.member.entities.Member
 import kr.soupio.soup.member.repository.MemberRepository
+import kr.soupio.soup.search.dto.SearchRequest
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -50,5 +52,9 @@ class MemberService(
     fun getMe(userId: String): Member {
         return memberRepository.findById(userId)
             .orElseThrow { NotExistMemberException(userId) }
+    }
+
+    fun searchMember(request: SearchRequest): Page<Member> {
+        return memberRepository.findByNameContaining(keyword = request.keyword, pageable = request.pageable)
     }
 }
