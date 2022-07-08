@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 internal class MemberServiceTest {
+    
     @Autowired
     private lateinit var memberService: MemberService
 
