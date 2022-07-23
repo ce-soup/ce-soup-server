@@ -27,27 +27,5 @@ data class GroupResponse(
     var personnel: Int = 0,
     var views: Int = 0,
     var status: GroupStatusEnum,
-) {
-    constructor(group: Group) : this(
-        id = group.id.toString(),
-        name = group.name,
-        content = group.content,
-        "http://133.186.215.107:9000/" + group.image?.key,
-        type = group.type,
-        category = group.category,
-        manager = group.manager,
-        isOnline = group.isOnline,
-        scope = group.scope,
-        recruitment = group.recruitment,
-        startDate = group.startDate,
-        startHour = group.startHour,
-        startMinute = group.startMinute,
-        endDate = group.endDate,
-        endHour = group.endHour,
-        endMinute = group.endMinute,
-        dayOfTheWeek = group.dayOfTheWeek,
-        personnel = group.personnel,
-        views = group.views,
-        status = group.status
-    )
-}
+)
+

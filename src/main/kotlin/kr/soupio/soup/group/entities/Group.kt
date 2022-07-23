@@ -3,6 +3,7 @@ package kr.soupio.soup.group.entities
 import kr.soupio.soup.category.entities.Category
 import kr.soupio.soup.core.entities.Core
 import kr.soupio.soup.file.entities.File
+import kr.soupio.soup.group.dto.response.GroupResponse
 import kr.soupio.soup.member.entities.Member
 import org.hibernate.annotations.ColumnDefault
 import java.time.LocalDate
@@ -79,4 +80,29 @@ class Group(
 
     @Column(nullable = true)
     var endDate: LocalDate? = null
+
+    fun toGroupResponse(): GroupResponse {
+        return GroupResponse(
+            id = id.toString(),
+            name = name,
+            content = content,
+            image = "http://133.186.215.107:9000/" + image?.key,
+            type = type,
+            category = category,
+            manager = manager,
+            isOnline = isOnline,
+            scope = scope,
+            recruitment = recruitment,
+            startDate = startDate,
+            startHour = startHour,
+            startMinute = startMinute,
+            endDate = endDate,
+            endHour = endHour,
+            endMinute = endMinute,
+            dayOfTheWeek = dayOfTheWeek,
+            personnel = personnel,
+            views = views,
+            status = status
+        )
+    }
 }

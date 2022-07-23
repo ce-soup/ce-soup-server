@@ -28,36 +28,21 @@ class GroupService(
     @Transactional
     fun create(
         userId: String,
-        request: CreateGroupRequest
+        createGroupRequest: CreateGroupRequest
     ): GroupResponse? {
         val member: Member = memberService.getMe(userId)
-        if (groupRepository.findByName(request.name) != null)
+        if (groupRepository.findByName(createGroupRequest.name) != null)
             throw GroupNameAlreadyExistException()
 
-        try {
-            return GroupResponse(
-                groupRepository.save(
-                    Group(
-                        type = request.type,
-                        name = request.name,
-                        content = request.content,
-                        category = request.category?.let { categoryRepository.findByName(it) },
-                        image = request.image?.let { fileService.upload(FileTypeEnum.GROUP, member, it) },
-                        manager = member,
-                        isOnline = request.isOnline,
-                        scope = request.scope,
-                        recruitment = request.recruitment,
-                        startHour = request.startHour,
-                        startMinute = request.startMinute,
-                        endHour = request.endHour,
-                        endMinute = request.endMinute,
-                        dayOfTheWeek = request.dayOfTheWeek,
-                        meetingLink = request.meetingLink
-                    )
-                )
-            )
+        return try {
+            val category = createGroupRequest.category?.let { categoryRepository.findByName(it) }
+            val image = createGroupRequest.image?.let { fileService.upload(FileTypeEnum.GROUP, member, it) }
+
+            val group = groupRepository.save(createGroupRequest.toEntity(member, category, image))
+            group.toGroupResponse()
+
         } catch (e: Exception) {
-            return null
+            null
         }
     }
 
@@ -83,14 +68,14 @@ class GroupService(
         group.endMinute = request.endMinute
         group.dayOfTheWeek = request.dayOfTheWeek
         group.meetingLink = request.meetingLink
-        return GroupResponse(group)
+        return group.toGroupResponse()
     }
 
     fun get(groupId: String): GroupResponse {
-        return GroupResponse(
-            groupRepository.findById(groupId)
-                .orElseThrow { NotExistGroupException(groupId) }
-        )
+        return groupRepository.findById(groupId)
+            .orElseThrow { NotExistGroupException(groupId) }
+            .toGroupResponse()
+
     }
 
     fun delete(
