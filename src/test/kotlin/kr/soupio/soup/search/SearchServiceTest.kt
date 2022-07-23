@@ -1,6 +1,7 @@
 package kr.soupio.soup.search
 
 import kr.soupio.soup.group.dto.request.CreateGroupRequest
+import kr.soupio.soup.group.dto.response.GroupResponse
 import kr.soupio.soup.group.entities.GroupRecruitmentEnum
 import kr.soupio.soup.group.entities.GroupScopeEnum
 import kr.soupio.soup.group.entities.GroupTypeEnum
@@ -40,7 +41,7 @@ class SearchServiceTest {
             )
         )
 
-        val group: Boolean = groupService.create(
+        val group: GroupResponse? = groupService.create(
             userId = memberId!!,
             CreateGroupRequest(
                 type = GroupTypeEnum.STUDY,

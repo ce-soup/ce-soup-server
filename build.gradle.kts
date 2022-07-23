@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val protobufJavaVersion = "3.20.1"
 val grpcVersion = "1.46.0"
 val grpcStarterVersion = "2.13.1.RELEASE"
+val queryDslVersion = "5.0.0"
 
 plugins {
     id("org.springframework.boot") version "2.6.7"
@@ -23,6 +24,10 @@ plugins {
 
     // serialization
     kotlin("plugin.serialization") version "1.5.0"
+
+    // kapt for QueryDSL
+    kotlin("kapt") version "1.4.10"
+    idea
 }
 
 // allopen
@@ -56,7 +61,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation("org.projectlombok:lombok:1.18.22")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
@@ -75,6 +79,19 @@ dependencies {
 
     // minio
     implementation("io.minio:minio:8.2.1")
+
+    // QueryDSL
+    implementation("com.querydsl:querydsl-jpa:$queryDslVersion")
+    kapt("com.querydsl:querydsl-apt:$queryDslVersion:jpa")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
+}
+
+idea {
+    module {
+        val kaptMain = file("build/generated/source/kapt/main")
+        sourceDirs.add(kaptMain)
+        generatedSourceDirs.add(kaptMain)
+    }
 }
 
 sourceSets {

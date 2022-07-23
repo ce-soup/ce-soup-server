@@ -6,7 +6,6 @@ import kr.soupio.soup.file.entities.File
 import kr.soupio.soup.member.entities.Member
 import org.hibernate.annotations.ColumnDefault
 import java.time.LocalDate
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -79,5 +78,5 @@ class Group(
     var startDate: LocalDate = LocalDate.now()
 
     @Column(nullable = true)
-    var endDate: Date? = null
+    var endDate: LocalDate? = null
 }

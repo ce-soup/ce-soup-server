@@ -1,4 +1,4 @@
-package kr.soupio.soup.config.security
+package kr.soupio.soup.config
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity

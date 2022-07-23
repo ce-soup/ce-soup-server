@@ -1,4 +1,4 @@
-package kr.soupio.soup.config.swagger
+package kr.soupio.soup.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
